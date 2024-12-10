@@ -1,0 +1,135 @@
+Harry Potter and the Sorcerer’s Stone
+Bloomsbury
+350
+500
+50
+9780439554930
+J.K. Rowling
+Fantasy
+309
+Dune
+Chilton Books
+800
+1200
+15
+9780441013593
+Frank Herbert
+Science Fiction
+412
+The Silent Patient
+Celadon Books
+300
+550
+35
+9781250301697
+Alex Michaelides
+Mystery
+336
+Pride and Prejudice
+T. Egerton
+250
+400
+60
+9781503290563
+Jane Austen
+Romance
+279
+Dracula
+Archibald Constable
+300
+500
+40
+9780141439846
+Bram Stoker
+Horror
+418
+Sapiens: A Brief History of Humankind
+Harper
+600
+950
+25
+9780062316110
+Yuval Noah Harari
+Non Fiction
+443
+The Hobbit
+Allen & Unwin
+400
+650
+45
+9780547928227
+J.R.R. Tolkien
+Fantasy
+310
+Ender’s Game
+Tor Books
+450
+700
+30
+9780812550702
+Orson Scott Card
+Science Fiction
+324
+Gone Girl
+Crown
+350
+600
+20
+9780307588371
+Gillian Flynn
+Mystery
+422
+Me Before You
+Pamela Dorman Books
+400
+700
+25
+9780143124542
+Jojo Moyes
+Romance
+369
+The Shining
+Doubleday
+500
+850
+18
+9780307743657
+Stephen King
+Horror
+447
+Atomic Habits
+Avery
+500
+800
+30
+9780735211292
+James Clear
+Non Fiction
+320
+The Fellowship of the Ring
+Allen & Unwin
+450
+750
+40
+9780618574940
+J.R.R. Tolkien
+Fantasy
+423
+The Martian
+Crown
+550
+850
+28
+9780553418026
+Andy Weir
+Science Fiction
+369
+The Girl with the Dragon Tattoo
+Norstedts Förlag
+350
+600
+25
+9780307949486
+Stieg Larsson
+Mystery
+672
