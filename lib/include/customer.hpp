@@ -3,33 +3,42 @@
 
 #include <iostream>
 #include <string>
-#include "person.hpp"
 
 using namespace std;
 
-class Customer : public Person {
+class Customer{
     private:
+        string name;
         string email;
         int points;
     
     public:
-        Customer() : Person(), email(""), points(0) {}
-        
-        Customer(const string& name, const string& email, const int& points): Person(name){
+        Customer() : name(""), email(""), points(0) {}
+
+        Customer(const string& name, const string& email, const int& points){
+            this->name = name;
             this->email = email;
             this->points = points;
         }
-        
+
         int checkCredentials(const string& name, const string& email){
-            return (Person :: checkCredentials(name) && this->email == email);
+            return (this->name == name && this->email == email);
         }
-        
+
         string getEmail() const {
             return email;
         }
 
+        string getName() const {
+            return name;
+        }
+
         int getPoints() const {
             return points;
+        }
+
+        int setPoints(const int& points){
+            this->points = points;
         }
 };
 

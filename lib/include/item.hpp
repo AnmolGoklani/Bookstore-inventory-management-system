@@ -6,6 +6,8 @@
 
 using namespace std;
 
+class Manager;
+
 class Item{
     private:
         static int id_counter;
@@ -17,6 +19,9 @@ class Item{
         int stock;
 
     public:
+
+        friend class Manager;
+
         Item() : id(++id_counter), title(""), publisher(""), cost(0.0), price(0.0), stock(0) {}
         Item(const string& title, const string& publisher, const double& cost, const double& price, const int& stock){
             this->id = ++id_counter;
@@ -34,6 +39,16 @@ class Item{
             cout << "Price: " << this->price << endl;
             cout << "Stock: " << this->stock << endl;
         } 
+
+        virtual void printManagerinfo(){
+            cout << "ID: " << this->id << endl;
+            cout << "Title: " << this->title << endl;
+            cout << "Publisher: " << this->publisher << endl;
+            cout << "Cost: " << this->cost << endl;
+            cout << "Price: " << this->price << endl;
+            cout << "Stock: " << this->stock << endl;
+        }
+
         virtual void printCustomerInfo(){
             if(this->stock){
                 cout << "ID: " << this->id << endl;
@@ -64,6 +79,10 @@ class Item{
 
         int getStock() const {
             return stock;
+        }
+
+        void setStock(const int& stock){
+            this->stock = stock;
         }
 
 

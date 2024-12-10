@@ -42,6 +42,9 @@ class Book : public Item {
             cout << "Genre: " << genreToString() << endl;
             cout << "Pages: " << this->pages << endl;
         }
+
+        
+
         void printCustomerInfo(){
             Item::printCustomerInfo();
             if(getStock()){

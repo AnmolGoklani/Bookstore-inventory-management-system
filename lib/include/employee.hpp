@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include "person.hpp"
 #include "book.hpp"
 #include "magazine.hpp"
 #include <vector>
@@ -11,27 +10,23 @@
 
 using namespace std;
 
-class Employee : public Person {
-    private:
-        string employee_id;
-
+class Employee{
     protected:
         static vector<Book> books;
         static vector<Magazine> magazines;
+        static double profit;
     
     public:
-        Employee() : Person(), employee_id("") {}
-
-        Employee(const string& name, const string& employee_id) : Person(name){
-            this->employee_id = employee_id;
+        int getProfit() const {
+            return profit;
         }
 
-        int checkCredentials(const string& name, const string& employee_id){
-            return (Person :: checkCredentials(name) && this->employee_id == employee_id);
-        }
+        // int setProfit(const double& profit){
+        //     this->profit = profit;
+        // }
 
-        string getEmployeeId() const {
-            return employee_id;
+        void save_profit(ofstream& file){
+            file << profit;
         }
 
         void save_books(ofstream& file){
@@ -57,6 +52,12 @@ class Employee : public Person {
                 file << magazine.getStock() << endl;
                 file << magazine.getIssue() << endl;
             }
+        }
+
+        void load_profit(ifstream& file){
+            string p;
+            getline(file, p);
+            profit = stod(p);
         }
 
         void load_books(ifstream& file){
@@ -89,5 +90,6 @@ class Employee : public Person {
 
 vector<Book> Employee::books;
 vector<Magazine> Employee::magazines;
+double Employee::profit = 0;
 
 #endif
