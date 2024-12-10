@@ -88,7 +88,7 @@ The project consists of seven header (`.hpp`) files, each representing a distinc
 
 ## Future Improvements
 - Implement a graphical user interface (GUI).
-- Add support for saving and loading inventory/customer data from files.
+- Add support for saving and loading inventory/customer data from SQL database instead of file.
 - Enhance the loyalty points system with more tiers and rewards.
 - Include reports for sales and inventory trends.
 
