@@ -21,6 +21,7 @@ class Customer{
             this->points = points;
         }
 
+        // function to handle customer login
         int checkCredentials(const string& name, const string& email){
             return (this->name == name && this->email == email);
         }

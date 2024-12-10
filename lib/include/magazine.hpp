@@ -20,6 +20,7 @@ class Magazine : public Item {
             Item::print();
             cout << "Issue: " << this->issue << endl;
         }
+        // print function for the cashier to print things customers are interested in
         void printCustomerInfo(){
             Item::printCustomerInfo();
             if(getStock()) cout << "Issue: " << this->issue << endl;

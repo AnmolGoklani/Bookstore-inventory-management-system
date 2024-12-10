@@ -6,11 +6,11 @@
 
 using namespace std;
 
-class Manager;
+class Manager;  // predeclaration to avoid circular dependency
 
 class Item{
     private:
-        static int id_counter;
+        static int id_counter; // to keep track of the id of the items (auto-incremented)
         int id;
         string title;
         string publisher;
@@ -20,7 +20,7 @@ class Item{
 
     public:
 
-        friend class Manager;
+        friend class Manager; // so that Manager can access the private attributes of Item and change cost and price
 
         Item() : id(++id_counter), title(""), publisher(""), cost(0.0), price(0.0), stock(0) {}
         Item(const string& title, const string& publisher, const double& cost, const double& price, const int& stock){
@@ -31,6 +31,9 @@ class Item{
             this->price = price;
             this->stock = stock;
         }
+
+        // the below 3 virtual functions are overridden in the derived classes
+        // and are written to be used by the derived classes
         virtual void print(){
             cout << "ID: " << this->id << endl;
             cout << "Title: " << this->title << endl;
@@ -40,6 +43,7 @@ class Item{
             cout << "Stock: " << this->stock << endl;
         } 
 
+        // print function for the manager to print all the details that the manager needs
         virtual void printManagerinfo(){
             cout << "ID: " << this->id << endl;
             cout << "Title: " << this->title << endl;
@@ -49,6 +53,8 @@ class Item{
             cout << "Stock: " << this->stock << endl;
         }
 
+
+        // print function for the cashier to print things customers are interested in
         virtual void printCustomerInfo(){
             if(this->stock){
                 cout << "ID: " << this->id << endl;
@@ -57,6 +63,11 @@ class Item{
                 cout << "Price: " << this->price << endl;
             }
         }
+
+        //i wrote get functions so that the cashier can access the private attributes of the items but not change them
+        //the customers can't access the books directly (as the vector of books is stored in Employee class) so they 
+        // can't use these get functions on the books in the inventory.
+
         int getId() const {
             return id;
         }
@@ -81,6 +92,7 @@ class Item{
             return stock;
         }
 
+        // used by cashier to substract from stock when a customer buys something
         void setStock(const int& stock){
             this->stock = stock;
         }

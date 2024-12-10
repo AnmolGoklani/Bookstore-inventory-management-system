@@ -9,8 +9,10 @@ using namespace std;
 
 class Cashier : public Employee {
     private:
-        vector <Item> cart;
+        vector <Item> cart; // items in the cart of the customer
     public:
+
+        // prints books by a particular author
         void printBooksByAuthor(string author){
             transform(author.begin(), author.end(), author.begin(), ::toupper);
             int found = 0;
@@ -27,6 +29,7 @@ class Cashier : public Employee {
             }
         }
 
+        // prints books of a particular genre
         void printBooksByGenre(const Genre& genre){
             int found = 0;
             for (Book book : Employee::books) {
@@ -41,6 +44,8 @@ class Cashier : public Employee {
             }
         }
 
+
+        // when a customer knows the isbn of the book
         void addBookByIsbn(const string& isbn){
             int found = 0;
             for (Book book : Employee::books) {
@@ -55,6 +60,7 @@ class Cashier : public Employee {
             }
         }
 
+        // when a customer knows the title and author of the book they want to buy
         void addBookByTitleAuthor(const string& title, const string& author){
             int found = 0;
             for (Book book : Employee::books) {
@@ -69,12 +75,15 @@ class Cashier : public Employee {
             }
         }
 
+
+        // prints all the magazines
         void printMagazines(){
             for (Magazine magazine : Employee::magazines) {
                 magazine.printCustomerInfo();
             }
         }
 
+        // adds a book to the cart
         void addBookToCart(const int& id){
             for(Book book : Employee::books){
                 if(book.getId() == id  && book.getStock()){
@@ -88,6 +97,7 @@ class Cashier : public Employee {
             }
         }
 
+        // adds a magazine to the cart
         void addMagazineToCart(const int& id){
             for(Magazine magazine : Employee::magazines){
                 if(magazine.getId() == id  && magazine.getStock()){
@@ -120,6 +130,9 @@ class Cashier : public Employee {
             }
         }
 
+        //loyalty points system
+        // if a customer shops for >= 500, they to redeem their points
+        // they get 5 points for every 100 spent
         void checkout(Customer& customer){
             double total = 0;
             for(Item item : cart){
@@ -127,6 +140,7 @@ class Cashier : public Employee {
             }
             cout << "Total amount to be paid: " << total << endl;
             cout << "Points in card: " << customer.getPoints() << endl;
+            
             if(total >= 500.00){
                 total -= (double)(customer.getPoints());
                 cout << "Total after using points:" << total << endl;
@@ -134,20 +148,24 @@ class Cashier : public Employee {
             else{
                 cout << "Add items worth " << 500.00 - total << " to redeem your points." << endl;
             }
-            cout << "Press 1 to confirm order, any other key to cancel: ";
+            cout << "Press 1 to confirm purchase, any other key to cancel: ";
             int opt;
             cin >> opt;
             if(opt == 1){
                 cout << "Thank you for shopping with us!" << endl;
-                cout << "You got " << (int)(total/100) << " points for this purchase!" << endl;
-                customer.setPoints((int)(total/100));
+                cout << "You got " << (int)(total/20) << " points for this purchase!" << endl;
+                customer.setPoints(customer.getPoints() + (int)(total/20));
                 for(Item item : cart){
                     item.setStock(item.getStock() - 1);
                     profit += item.getPrice() - item.getCost();
                 }
+                cart.clear();
+            }
+            else{
+                cout << "Your purchase was cancelled but your cart is still full. Hope you find what you like!" << endl;
             }
         
-            cart.clear();
+            
         }
         
 };

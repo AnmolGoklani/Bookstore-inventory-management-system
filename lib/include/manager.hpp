@@ -16,6 +16,7 @@ class Manager : public Employee {
 
         Manager(const string& name, const string& manager_id) : name(name) , manager_id(manager_id) {}
 
+        // function to handle manager login
         int checkCredentials(const string& name, const string& manager_id){
             return (this->name == name && this->manager_id == manager_id);
         }
@@ -28,6 +29,7 @@ class Manager : public Employee {
             return manager_id;
         }
 
+        // restock an existing book
         void restockBook(const int& id, const int& stock){
             bool found = false;
             for(Book& book : Employee::books){
@@ -43,6 +45,8 @@ class Manager : public Employee {
             }
         }
 
+
+        // restock an existing magazine
         void restockMagazine(const int& id, const int& stock){
             bool found = false;
             for(Magazine& magazine : Employee::magazines){
@@ -58,6 +62,7 @@ class Manager : public Employee {
             }
         }
 
+        // add a new magazine
         void addMagazine(){
             string title, publisher, issue;
             double cost, price;
@@ -77,6 +82,8 @@ class Manager : public Employee {
             Employee::magazines.push_back(Magazine(title, publisher, cost, price, stock, issue));
         }
 
+
+        // add a new book
         void addBook(){
             string title, publisher, isbn, author;
             double cost, price;
@@ -111,6 +118,8 @@ class Manager : public Employee {
             Employee::books.push_back(Book(title, publisher, cost, price, stock, isbn, author, genre, pages));
         }
         
+
+        //delete a book
         void deleteBook(const int& id){
             bool found = false;
             for(int i = 0; i < Employee::books.size(); i++){
@@ -126,6 +135,8 @@ class Manager : public Employee {
             }
         }
 
+
+        //delete a magazine
         void deleteMagazine(const int& id){
             bool found = false;
             for(int i = 0; i < Employee::magazines.size(); i++){
@@ -141,6 +152,7 @@ class Manager : public Employee {
             }
         }
         
+        //print all items in detail
         void printItems(){
             cout << "Books: " << endl;
             for(Book book : Employee::books){
@@ -152,6 +164,7 @@ class Manager : public Employee {
             }
         }
 
+        //print all items with low stock so that the manager can restock them
         void printLowStock(){
             cout << "Books: " << endl;
             for(Book book : Employee::books){
@@ -167,6 +180,7 @@ class Manager : public Employee {
             }
         }
 
+    
         void changeCost(int id, double cost){
             int found = 0;
             for(Book book : Employee::books){

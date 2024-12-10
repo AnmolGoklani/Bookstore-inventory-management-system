@@ -5,6 +5,8 @@
 #include "../lib/include/cashier.hpp"
 #include <regex>
 
+// used files for storing data, so the below functions save and load data to and from the files
+
 int load_data(Manager& manager, Cashier& cashier , vector <Customer>& customers) {
     ifstream file;
 
@@ -113,6 +115,7 @@ int save_data(Manager& manager, Cashier& cashier, vector <Customer>& customers) 
     return 0;
 }
 
+// function to verify email of the customer
 bool verify_email(const string& email) {
     const regex pattern(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
     return regex_match(email, pattern);
@@ -130,6 +133,7 @@ int main() {
 
     int quit = 0;
 
+    //main game loop
     while(!quit){
         cout << "Welcome to the Bookstore, press" << endl;
         cout << "1 to Login as Manager" << endl;
@@ -140,6 +144,7 @@ int main() {
         int option;
         cin >> option;
 
+        //manager
         if(option == 1){
             string name, employee_id;
             cout << "Enter name: ";
@@ -161,11 +166,14 @@ int main() {
                     int opt;
                     cin >> opt;
 
+                    //add items to inventory
                     if(opt == 1){
                         while(1){
                             cout<<"Press 1 to add a book, 2 to add a magazine, anything else to go back: ";
                             int choice;
                             cin >> choice;
+
+                            //book
                             if(choice == 1){
                                 while(1){
                                     cout << "Press 1 for restock, 2 for new book anything else to go back: ";
@@ -182,13 +190,14 @@ int main() {
                         
                                     }
                                     else if(restock == 2){
-                                        manager.addBook();
+                                        manager.addBook(); // adding new book
                                     }
                                     else{
                                         break;
                                     }
                                 }
                             }
+                            //magazine
                             else if(choice == 2){
                                 while(1){
                                     cout << "Press 1 for restock, 2 for new magazine, anything else to go back: ";
@@ -204,7 +213,7 @@ int main() {
                                         manager.restockMagazine(id, stock);
                                     }
                                     else if(restock == 2){
-                                        manager.addMagazine();
+                                        manager.addMagazine(); // adding new magazine
                                     }
                                     else{
                                         break;
@@ -216,17 +225,21 @@ int main() {
                             }
                         }
                     }
+
+                    //delete items from inventory
                     else if(opt == 2){
                         while(1){
                             cout << "Press 1 to delete a book, 2 to delete a magazine, anything else to go back: ";
                             int choice;
                             cin >> choice;
+                            //delete book
                             if(choice == 1){
                                 cout << "Enter the id of the book you want to delete: ";
                                 int id;
                                 cin >> id;
                                 manager.deleteBook(id);
                             }
+                            //delete magazine
                             else if(choice == 2){
                                 cout << "Enter the id of the magazine you want to delete: ";
                                 int id;
@@ -241,17 +254,21 @@ int main() {
                     else if(opt == 3){
                         cout << "Daily profit: " << manager.getProfit() << endl;
                     }
+                    //view detailed list of all items
                     else if(opt == 4){
                         manager.printItems();
                     }
+                    //view items low on stock
                     else if(opt == 5){
                         manager.printLowStock();
                     }
+                    //change the details of an item
                     else if(opt == 6){
                         while(1){
                             cout << "Press 1 to change the cost of an item, 2 to change the price of an item, anything else to go back: ";
                             int choice;
                             cin >> choice;
+                            //change cost
                             if(choice == 1){
                                 cout << "Enter the id of the item you want to change the cost of: ";
                                 int id;
@@ -261,6 +278,7 @@ int main() {
                                 cin >> cost;
                                 manager.changeCost(id, cost);
                             }
+                            //change price
                             else if(choice == 2){
                                 cout << "Enter the id of the item you want to change the price of: ";
                                 int id;
@@ -279,21 +297,23 @@ int main() {
                         break;
                     }
                     
-                }
+                } // the loop for manager ends here
                 
-            } else {
+            }
+            else {
                 cout << "Invalid credentials" << endl;
             }
 
 
         }
+        //customer login
         else if(option == 2){
             string name, email;
             cout << "Enter name: ";
             getline(cin >> ws, name);
             cout << "Enter email: ";
             cin >> email;
-            while(!verify_email(email)){
+            while(!verify_email(email)){ //email verification
                 cout << "Invalid email. Please enter a valid email: ";
                 cin >> email;
             }
@@ -308,9 +328,12 @@ int main() {
                         cout << "Press" << endl;
                         cout << "1 to Buy Book" << endl;
                         cout << "2 to Buy Magazine" << endl;
-                        cout << "Any other key to Logout" << endl;
+                        cout << "3 to display cart or checkout" << endl;
+                        cout << "Any other key to Logout (your cart will be gone)" << endl;
                         int opt;
                         cin >> opt;
+
+                        //book
                         if(opt == 1){
                             while(1){
                                 cout<<"Great! Now let's help you find the perfect book for you."<<endl;
@@ -321,6 +344,8 @@ int main() {
                                 cout << "Any other key to go back" << endl;
                                 int choice;
                                 cin >> choice;
+
+                                //author based search
                                 if(choice == 1){
                                     string author;
                                     cout <<endl<< "Enter author: ";
@@ -328,6 +353,7 @@ int main() {
                                     cashier.printBooksByAuthor(author);
                                     cout<<endl<<"Enter the ids of the book you want to add to your cart (when you're done press 0): "<<endl;
                                     int id;
+                                    //adding books to cart
                                     while(1){
                                         cin >> id;
                                         if(id == 0){
@@ -339,6 +365,7 @@ int main() {
                                     }
 
                                 }
+                                //genre based search
                                 else if(choice == 2){
                                     cout <<endl<< "Enter genre (Fantasy, Science Fiction, Mystery, Romance, Horror, Non Fiction, Other): ";
                                     string genre;
@@ -346,6 +373,7 @@ int main() {
                                     cashier.printBooksByGenre(stringToGenre(genre));
                                     cout<<endl<<"Enter the ids of the book you want to add to your cart (when you're done press 0): "<<endl;
                                     int id;
+                                    //adding books to cart
                                     while(1){
                                         cin >> id;
                                         if(id == 0){
@@ -356,12 +384,14 @@ int main() {
                                         }
                                     }
                                 }
+                                //when the customer knows the book they want to buy
                                 else if(choice == 3){
                                     cout << "If you know the isbn of the book enter that, else press 0: ";
                                     string isbn;
-                                    cin >> isbn;
+                                    cin >> isbn; //unique code for every book
 
                                     if(isbn != "0"){
+                                        isbn.erase(remove(isbn.begin(), isbn.end(), '-'), isbn.end()); //in case someone adds dashes in their input
                                         cashier.addBookByIsbn(isbn);
                                     }
                                     else{
@@ -380,12 +410,14 @@ int main() {
                                 }
                             }
                         }
+                        //magazine
                         else if(opt == 2){
                             cout<<"Here is a list of all the magazines we have: "<<endl;
                             cashier.printMagazines();
 
                             cout<<endl<<"Enter the ids of the magazine you want to add to your cart (when you're done press 0): "<<endl;
                             int id;
+                            //adding magazines to cart
                             while(1){
                                 cin >> id;
                                 if(id == 0){
@@ -399,42 +431,51 @@ int main() {
                             cout<<endl<<endl;
 
                         }
+                        //display cart or checkout
+                        //if the customer wants to back down at any point, they can do it and their cart remains safe
+                        else if(opt == 3){
+                            cashier.displayCart();
+                            cout<<"Do you wanna finalise purchase? Press 1 to checkout, any other key to continue exploring: ";
+                            int checkout;
+                            cin >> checkout;
+                            if(checkout == 1){
+                                //confirming the final cart
+                                cashier.displayCart();
+                                cout<<"Enter the ids of the elements you want to remove from your cart, when you're done press 0: "<<endl;
+                                int id;
+                                while(1){
+                                    cin >> id;
+                                    if(id == 0){
+                                        break;
+                                    }
+                                    else{
+                                        cashier.removeItemFromCart(id);
+                                    }
+                                }
+
+                                cashier.displayCart();
+                                cout<<"Press 1 to continue, any other key to continue exploring: ";
+                                int check;
+                                cin >> check;
+                                if(check == 1){
+                                    cashier.checkout(customer);
+                                }
+                                else{
+                                    cout<<"No worries! Hope you find what you like. Yout purchase was cancelled, your cart is still full."<<endl;
+                                }
+
+
+                            }
+                        }
                         else{
                             break;
                         }
 
                     }
-
-                    cashier.displayCart();
-
-                    cout<<"Enter the ids of the elements you want to remove from your cart, when you're done press 0: "<<endl;
-                    int id;
-                    while(1){
-                        cin >> id;
-                        if(id == 0){
-                            break;
-                        }
-                        else{
-                            cashier.removeItemFromCart(id);
-                        }
-                    }
-
-                    cashier.displayCart();
-                    cout<<"Press 1 to checkout, any other key to logout: ";
-                    int checkout;
-                    cin >> checkout;
-                    if(checkout == 1){
-                        cashier.checkout(customer);
-                        cout<<"Thank you for shopping with us! Your order has been placed."<<endl;
-                    }
-                    else{
-                        cout<<"Thank you for visiting us! Your order has not been placed."<<endl;
-                    }
-
 
                     break;
                     
-                }
+                }// end of customer login loop
             }
             if(!login){
                 cout << "Customer doesnt exist, try signing up instead." << endl;
@@ -472,9 +513,12 @@ int main() {
                 cout << "Press" << endl;
                 cout << "1 to Buy Book" << endl;
                 cout << "2 to Buy Magazine" << endl;
-                cout << "Any other key to Logout" << endl;
+                cout << "3 to display cart or checkout" << endl;
+                cout << "Any other key to Logout (your cart will be gone)" << endl;
                 int opt;
                 cin >> opt;
+
+                //book
                 if(opt == 1){
                     while(1){
                         cout<<"Great! Now let's help you find the perfect book for you."<<endl;
@@ -485,6 +529,8 @@ int main() {
                         cout << "Any other key to go back" << endl;
                         int choice;
                         cin >> choice;
+
+                        //author based search
                         if(choice == 1){
                             string author;
                             cout <<endl<< "Enter author: ";
@@ -492,6 +538,7 @@ int main() {
                             cashier.printBooksByAuthor(author);
                             cout<<endl<<"Enter the ids of the book you want to add to your cart (when you're done press 0): "<<endl;
                             int id;
+                            //adding books to cart
                             while(1){
                                 cin >> id;
                                 if(id == 0){
@@ -503,6 +550,7 @@ int main() {
                             }
 
                         }
+                        //genre based search
                         else if(choice == 2){
                             cout <<endl<< "Enter genre (Fantasy, Science Fiction, Mystery, Romance, Horror, Non Fiction, Other): ";
                             string genre;
@@ -510,6 +558,7 @@ int main() {
                             cashier.printBooksByGenre(stringToGenre(genre));
                             cout<<endl<<"Enter the ids of the book you want to add to your cart (when you're done press 0): "<<endl;
                             int id;
+                            //adding books to cart
                             while(1){
                                 cin >> id;
                                 if(id == 0){
@@ -520,10 +569,25 @@ int main() {
                                 }
                             }
                         }
+                        //when the customer knows the book they want to buy
                         else if(choice == 3){
                             cout << "If you know the isbn of the book enter that, else press 0: ";
                             string isbn;
-                            cin >> isbn;
+                            cin >> isbn; //unique code for every book
+
+                            if(isbn != "0"){
+                                isbn.erase(remove(isbn.begin(), isbn.end(), '-'), isbn.end()); //in case someone adds dashes in their input
+                                cashier.addBookByIsbn(isbn);
+                            }
+                            else{
+                                cout<<"Enter the title of the book:";
+                                string title;
+                                getline(cin >> ws, title);
+                                cout<<"Enter the author of the book:";
+                                string author;
+                                getline(cin >> ws, author);
+                                cashier.addBookByTitleAuthor(title, author);
+                            }
 
                         }
                         else{
@@ -531,12 +595,14 @@ int main() {
                         }
                     }
                 }
+                //magazine
                 else if(opt == 2){
                     cout<<"Here is a list of all the magazines we have: "<<endl;
                     cashier.printMagazines();
 
                     cout<<endl<<"Enter the ids of the magazine you want to add to your cart (when you're done press 0): "<<endl;
                     int id;
+                    //adding magazines to cart
                     while(1){
                         cin >> id;
                         if(id == 0){
@@ -550,39 +616,47 @@ int main() {
                     cout<<endl<<endl;
 
                 }
+                //display cart or checkout
+                //if the customer wants to back down at any point, they can do it and their cart remains safe
+                else if(opt == 3){
+                    cashier.displayCart();
+                    cout<<"Do you wanna finalise purchase? Press 1 to checkout, any other key to continue exploring: ";
+                    int checkout;
+                    cin >> checkout;
+                    if(checkout == 1){
+                        //confirming the final cart
+                        cashier.displayCart();
+                        cout<<"Enter the ids of the elements you want to remove from your cart, when you're done press 0: "<<endl;
+                        int id;
+                        while(1){
+                            cin >> id;
+                            if(id == 0){
+                                break;
+                            }
+                            else{
+                                cashier.removeItemFromCart(id);
+                            }
+                        }
+
+                        cashier.displayCart();
+                        cout<<"Press 1 to continue, any other key to continue exploring: ";
+                        int check;
+                        cin >> check;
+                        if(check == 1){
+                            cashier.checkout(curr_customer);
+                        }
+                        else{
+                            cout<<"No worries! Hope you find what you like. Yout purchase was cancelled, your cart is still full."<<endl;
+                        }
+
+
+                    }
+                }
                 else{
                     break;
                 }
 
             }
-
-                    cashier.displayCart();
-
-                    cout<<"Enter the ids of the elements you want to remove from your cart, when you're done press 0: "<<endl;
-                    int id;
-                    while(1){
-                        cin >> id;
-                        if(id == 0){
-                            break;
-                        }
-                        else{
-                            cashier.removeItemFromCart(id);
-                        }
-                    }
-
-                    cashier.displayCart();
-                    cout<<"Press 1 to checkout, any other key to logout: ";
-                    int checkout;
-                    cin >> checkout;
-                    if(checkout == 1){
-                        cashier.checkout(curr_customer);
-                        cout<<"Thank you for shopping with us! Your order has been placed."<<endl;
-                    }
-                    else{
-                        cout<<"Thank you for visiting us! Your order has not been placed."<<endl;
-                    }
-
-
 
         }
         else{

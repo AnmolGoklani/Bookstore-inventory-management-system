@@ -14,17 +14,17 @@ class Employee{
     protected:
         static vector<Book> books;
         static vector<Magazine> magazines;
-        static double profit;
+        static double profit; // overall profit since the bookstore started its operations
     
     public:
         int getProfit() const {
             return profit;
         }
 
-        // int setProfit(const double& profit){
-        //     this->profit = profit;
-        // }
+        //database maintained using file handling so the below save and load
+        //functions are used to save and load the data to and from the files
 
+        //maintain profit after programs stops
         void save_profit(ofstream& file){
             file << profit;
         }
