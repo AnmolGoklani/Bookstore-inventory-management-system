@@ -100,6 +100,7 @@ class Book : public Item {
 
 Genre stringToGenre(string genre){
     transform(genre.begin(), genre.end(), genre.begin(), ::toupper);
+    // cout<<genre<<endl;
     if (genre == "FANTASY")
         return FANTASY;
     else if (genre == "SCIENCE FICTION")

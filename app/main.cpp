@@ -449,7 +449,7 @@ int main() {
                                 else if(choice == 2){
                                     cout <<endl<< "Enter genre (Fantasy, Science Fiction, Mystery, Romance, Horror, Non Fiction, Other): ";
                                     string genre;
-                                    cin >> genre;
+                                    getline(cin >> ws, genre);
                                     cashier.printBooksByGenre(stringToGenre(genre));
                                     cout<<endl<<"Enter the ids of the book you want to add to your cart (when you're done press 0): "<<endl;
                                     int id;
@@ -658,7 +658,7 @@ int main() {
                         else if(choice == 2){
                             cout <<endl<< "Enter genre (Fantasy, Science Fiction, Mystery, Romance, Horror, Non Fiction, Other): ";
                             string genre;
-                            cin >> genre;
+                            getline(cin >> ws, genre);
                             cashier.printBooksByGenre(stringToGenre(genre));
                             cout<<endl<<"Enter the ids of the book you want to add to your cart (when you're done press 0): "<<endl;
                             int id;

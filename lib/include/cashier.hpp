@@ -9,14 +9,14 @@ using namespace std;
 
 class Cashier : public Employee {
     private:
-        vector <Item> cart; // items in the cart of the customer
+        vector <Item*> cart; // items in the cart of the customer
     public:
 
         // prints books by a particular author
         void printBooksByAuthor(string author){
             transform(author.begin(), author.end(), author.begin(), ::toupper);
             int found = 0;
-            for (Book book : Employee::books) {
+            for (Book& book : Employee::books) {
                 string book_author = book.getAuthor();
                 transform(book_author.begin(), book_author.end(), book_author.begin(), ::toupper);
                 if(book_author == author){
@@ -32,7 +32,7 @@ class Cashier : public Employee {
         // prints books of a particular genre
         void printBooksByGenre(const Genre& genre){
             int found = 0;
-            for (Book book : Employee::books) {
+            for (Book& book : Employee::books) {
                 if(book.getGenre() == genre){
                     book.printCustomerInfo();
                     found = 1;
@@ -48,9 +48,10 @@ class Cashier : public Employee {
         // when a customer knows the isbn of the book
         void addBookByIsbn(const string& isbn){
             int found = 0;
-            for (Book book : Employee::books) {
+            for (Book& book : Employee::books) {
                 if(book.getIsbn() == isbn  && book.getStock()){
-                    addBookToCart(book.getId());
+                    cart.push_back(&book);
+                    cout << book.getTitle() << " successfully added to your cart." << endl;
                     found = 1;
                     break;
                 }
@@ -63,9 +64,10 @@ class Cashier : public Employee {
         // when a customer knows the title and author of the book they want to buy
         void addBookByTitleAuthor(const string& title, const string& author){
             int found = 0;
-            for (Book book : Employee::books) {
+            for (Book& book : Employee::books) {
                 if(book.getTitle() == title && book.getAuthor() == author && book.getStock()){
-                    addBookToCart(book.getId());
+                    cart.push_back(&book);
+                    cout << book.getTitle() << " successfully added to your cart." << endl;
                     found = 1;
                     break;
                 }
@@ -85,10 +87,10 @@ class Cashier : public Employee {
 
         // adds a book to the cart
         void addBookToCart(const int& id){
-            for(Book book : Employee::books){
+            for(Book& book : Employee::books){
                 if(book.getId() == id){
                     if(book.getStock()){
-                        cart.push_back(book);
+                        cart.push_back(&book);
                         cout << book.getTitle() << " successfully added to your cart." << endl;
                     }
                     else{
@@ -101,10 +103,10 @@ class Cashier : public Employee {
 
         // adds a magazine to the cart
         void addMagazineToCart(const int& id){
-            for(Magazine magazine : Employee::magazines){
+            for(Magazine& magazine : Employee::magazines){
                 if(magazine.getId() == id){
                     if(magazine.getStock()){
-                        cart.push_back(magazine);
+                        cart.push_back(&magazine);
                         cout << magazine.getTitle() << " successfully added to your cart." << endl;
                     }
                     else{
@@ -117,16 +119,16 @@ class Cashier : public Employee {
 
         void displayCart(){
             cout << endl << "Items in your cart: " << endl;
-            for(Item& item : cart){
-                cout << item.getId() << " -> " << item.getTitle() <<  " -> " << item.getPrice() << " INR" << endl;
+            for(Item* item : cart){
+                cout << item->getId() << " -> " << item->getTitle() <<  " -> " << item->getPrice() << " INR" << endl;
             }
         }
 
         void removeItemFromCart(const int& id){
             int found = 0;
             for(int i = 0; i < cart.size(); i++){
-                if(cart[i].getId() == id){
-                    cout << cart[i].getTitle() << " successfully removed from your cart." << endl;
+                if(cart[i]->getId() == id){
+                    cout << cart[i]->getTitle() << " successfully removed from your cart." << endl;
                     cart.erase(cart.begin() + i);
                     found = 1;
                     break;
@@ -142,8 +144,8 @@ class Cashier : public Employee {
         // they get 5 points for every 100 spent
         void checkout(Customer& customer){
             double total = 0;
-            for(Item& item : cart){
-                total += item.getPrice();
+            for(Item* item : cart){
+                total += item->getPrice();
             }
             cout << "Total amount to be paid: " << total << endl;
             cout << "Points in card: " << customer.getPoints() << endl;
@@ -170,12 +172,12 @@ class Cashier : public Employee {
             }
             if(opt == 1){
                 cout << "Thank you for shopping with us!" << endl;
-                cout << "You got " << (int)(total/20) << " points for this purchase!" << endl;
-                if(total >= 500.00) customer.setPoints(0);
-                customer.setPoints(customer.getPoints() + (int)(total/20));
-                for(Item& item : cart){
-                    item.setStock(item.getStock() - 1);
-                    profit += item.getPrice() - item.getCost();
+                cout << "You got " << (int)((total + (double)(customer.getPoints()))/20) << " points for this purchase!" << endl;
+                if(total + (double)(customer.getPoints())>= 500.00) customer.setPoints(0);
+                customer.setPoints(customer.getPoints() + (int)(total + (double)(customer.getPoints())));
+                for(Item* item : cart){
+                    item->setStock(item->getStock() - 1);
+                    profit += item->getPrice() - item->getCost();
                 }
                 cart.clear();
             }

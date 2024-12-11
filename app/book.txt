@@ -1,7 +1,7 @@
 Harry Potter and the Sorcerer’s Stone
 Bloomsbury
-350
-500
+300
+499
 50
 9780439554930
 J.K. Rowling
@@ -119,7 +119,7 @@ The Martian
 Crown
 550
 850
-28
+27
 9780553418026
 Andy Weir
 Science Fiction
