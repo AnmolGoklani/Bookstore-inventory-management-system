@@ -117,7 +117,7 @@ class Cashier : public Employee {
 
         void displayCart(){
             cout << endl << "Items in your cart: " << endl;
-            for(Item item : cart){
+            for(Item& item : cart){
                 cout << item.getId() << " -> " << item.getTitle() <<  " -> " << item.getPrice() << " INR" << endl;
             }
         }
@@ -142,7 +142,7 @@ class Cashier : public Employee {
         // they get 5 points for every 100 spent
         void checkout(Customer& customer){
             double total = 0;
-            for(Item item : cart){
+            for(Item& item : cart){
                 total += item.getPrice();
             }
             cout << "Total amount to be paid: " << total << endl;
@@ -171,8 +171,9 @@ class Cashier : public Employee {
             if(opt == 1){
                 cout << "Thank you for shopping with us!" << endl;
                 cout << "You got " << (int)(total/20) << " points for this purchase!" << endl;
+                if(total >= 500.00) customer.setPoints(0);
                 customer.setPoints(customer.getPoints() + (int)(total/20));
-                for(Item item : cart){
+                for(Item& item : cart){
                     item.setStock(item.getStock() - 1);
                     profit += item.getPrice() - item.getCost();
                 }

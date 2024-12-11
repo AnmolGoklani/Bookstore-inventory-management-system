@@ -38,7 +38,7 @@ class Customer{
             return points;
         }
 
-        int setPoints(const int& points){
+        void setPoints(const int& points){
             this->points = points;
         }
 };
