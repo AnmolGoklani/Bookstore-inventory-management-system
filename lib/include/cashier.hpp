@@ -86,13 +86,15 @@ class Cashier : public Employee {
         // adds a book to the cart
         void addBookToCart(const int& id){
             for(Book book : Employee::books){
-                if(book.getId() == id  && book.getStock()){
-                    cart.push_back(book);
-                    cout << book.getTitle() << " successfully added to your cart." << endl;
+                if(book.getId() == id){
+                    if(book.getStock()){
+                        cart.push_back(book);
+                        cout << book.getTitle() << " successfully added to your cart." << endl;
+                    }
+                    else{
+                        cout << book.getTitle() << " not available." << endl;
+                    }
                     break;
-                }
-                else{
-                    cout << book.getTitle() << " not available." << endl;
                 }
             }
         }
@@ -100,9 +102,14 @@ class Cashier : public Employee {
         // adds a magazine to the cart
         void addMagazineToCart(const int& id){
             for(Magazine magazine : Employee::magazines){
-                if(magazine.getId() == id  && magazine.getStock()){
-                    cart.push_back(magazine);
-                    cout << magazine.getTitle() << " successfully added to your cart." << endl;
+                if(magazine.getId() == id){
+                    if(magazine.getStock()){
+                        cart.push_back(magazine);
+                        cout << magazine.getTitle() << " successfully added to your cart." << endl;
+                    }
+                    else{
+                        cout << magazine.getTitle() << " not available." << endl;
+                    }
                     break;
                 }
             }
@@ -111,7 +118,7 @@ class Cashier : public Employee {
         void displayCart(){
             cout << endl << "Items in your cart: " << endl;
             for(Item item : cart){
-                cout << item.getId() << " -> " << item.getTitle() <<  item.getPrice() << endl;
+                cout << item.getId() << " -> " << item.getTitle() <<  " -> " << item.getPrice() << " INR" << endl;
             }
         }
 
@@ -140,7 +147,10 @@ class Cashier : public Employee {
             }
             cout << "Total amount to be paid: " << total << endl;
             cout << "Points in card: " << customer.getPoints() << endl;
-            
+            if(!total) {
+                cout << "Your cart is empty." << endl;
+                return;
+            }
             if(total >= 500.00){
                 total -= (double)(customer.getPoints());
                 cout << "Total after using points:" << total << endl;
@@ -150,7 +160,14 @@ class Cashier : public Employee {
             }
             cout << "Press 1 to confirm purchase, any other key to cancel: ";
             int opt;
-            cin >> opt;
+            string sopt;
+            cin >> sopt;
+            try{
+                opt = stoi(sopt);
+            }
+            catch(exception e){
+                opt = 0;
+            }
             if(opt == 1){
                 cout << "Thank you for shopping with us!" << endl;
                 cout << "You got " << (int)(total/20) << " points for this purchase!" << endl;

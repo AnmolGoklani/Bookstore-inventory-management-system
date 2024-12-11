@@ -34,7 +34,7 @@ class Manager : public Employee {
             bool found = false;
             for(Book& book : Employee::books){
                 if(book.getId() == id){
-                    book.setStock(stock);
+                    book.setStock(book.getStock() + stock);
                     cout << book.getTitle() << " : " << book.getStock() << " copies" << endl;
                     found = true;
                     break;
@@ -51,7 +51,7 @@ class Manager : public Employee {
             bool found = false;
             for(Magazine& magazine : Employee::magazines){
                 if(magazine.getId() == id){
-                    magazine.setStock(stock);
+                    magazine.setStock(magazine.getStock() + stock);
                     cout << magazine.getTitle() << " : " << magazine.getStock() << " copies" << endl;
                     found = true;
                     break;
@@ -73,13 +73,15 @@ class Manager : public Employee {
             getline(cin >> ws, publisher);
             cout << "Enter the cost of the magazine: ";
             cin >> cost;
-            cout << "Enter the price of the magazine: ";
+            cout << "Enter the price (INR) of the magazine: ";
             cin >> price;
             cout << "Enter the number of copies to be added: ";
             cin >> stock;
             cout << "Enter the issue of the magazine: ";
             cin >> issue;
-            Employee::magazines.push_back(Magazine(title, publisher, cost, price, stock, issue));
+            Magazine magazine(title, publisher, cost, price, stock, issue);
+            Employee::magazines.push_back(magazine);
+            cout << "Magazine added successfully with " << magazine.getStock() << "copies" << endl;
         }
 
 
@@ -95,7 +97,7 @@ class Manager : public Employee {
             getline(cin >> ws, publisher);
             cout << "Enter the cost of the book: ";
             cin >> cost;
-            cout << "Enter the price of the book: ";
+            cout << "Enter the price (INR) of the book: ";
             cin >> price;
             cout << "Enter the number of copies to be added: ";
             cin >> stock;
@@ -115,7 +117,9 @@ class Manager : public Employee {
                     return;
                 }
             }
-            Employee::books.push_back(Book(title, publisher, cost, price, stock, isbn, author, genre, pages));
+            Book book(title, publisher, cost, price, stock, isbn, author, genre, pages);
+            Employee::books.push_back(book);
+            cout << "Book added successfully with " << book.getStock() << "copies" << endl;
         }
         
 
@@ -155,11 +159,11 @@ class Manager : public Employee {
         //print all items in detail
         void printItems(){
             cout << "Books: " << endl;
-            for(Book book : Employee::books){
+            for(Book& book : Employee::books){
                 book.print();
             }
             cout << "Magazines: " << endl;
-            for(Magazine magazine : Employee::magazines){
+            for(Magazine& magazine : Employee::magazines){
                 magazine.print();
             }
         }
@@ -167,23 +171,23 @@ class Manager : public Employee {
         //print all items with low stock so that the manager can restock them
         void printLowStock(){
             cout << "Books: " << endl;
-            for(Book book : Employee::books){
+            for(Book& book : Employee::books){
                 if(book.getStock() <= 5){
                     book.printManagerinfo();
                 }
             }
             cout << "Magazines: " << endl;
-            for(Magazine magazine : Employee::magazines){
+            for(Magazine& magazine : Employee::magazines){
                 if(magazine.getStock() <= 5){
                     magazine.printManagerinfo();
                 }
             }
         }
 
-    
+
         void changeCost(int id, double cost){
             int found = 0;
-            for(Book book : Employee::books){
+            for(Book& book : Employee::books){
                 if(book.getId() == id){
                     //we do this instead of making a setter function because
                     // I didn't want cashier to be able to change the cost or price of any item 
@@ -195,7 +199,7 @@ class Manager : public Employee {
                 }
             }
             if(!found){
-                for(Magazine magazine : Employee::magazines){
+                for(Magazine& magazine : Employee::magazines){
                     if(magazine.getId() == id){
                         magazine.cost = cost;
                         found = 1;
@@ -207,11 +211,14 @@ class Manager : public Employee {
             if(!found){
                 cout << "Item with id " << id << " not found." << endl;
             }
+            else{
+                cout << "Cost of item with id " << id << " changed to " << cost << endl;
+            }
         }
 
         void changePrice(int id, double price){
             int found = 0;
-            for(Book book : Employee::books){
+            for(Book& book : Employee::books){
                 if(book.getId() == id){
                     book.price = price;  
                     found = 1;
@@ -219,7 +226,7 @@ class Manager : public Employee {
                 }
             }
             if(!found){
-                for(Magazine magazine : Employee::magazines){
+                for(Magazine& magazine : Employee::magazines){
                     if(magazine.getId() == id){
                         magazine.price = price;
                         found = 1;
@@ -230,6 +237,9 @@ class Manager : public Employee {
 
             if(!found){
                 cout << "Item with id " << id << " not found." << endl;
+            }
+            else{
+                cout << "Price of item with id " << id << " changed to " << price << endl;
             }
         }
         

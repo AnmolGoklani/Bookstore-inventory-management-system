@@ -81,7 +81,7 @@ int save_data(Manager& manager, Cashier& cashier, vector <Customer>& customers) 
         cout << "Unable to open customer.txt";
         return 1;
     }
-    for (Customer customer : customers) {
+    for (Customer& customer : customers) {
         file << customer.getName() << "," << customer.getEmail() << "," << customer.getPoints() << endl;
     }
     file.close();
@@ -133,16 +133,29 @@ int main() {
 
     int quit = 0;
 
+    // int a;
+    // cin>>a;
+    // cout<<a;
+    // return 0;
+
     //main game loop
     while(!quit){
         cout << "Welcome to the Bookstore, press" << endl;
         cout << "1 to Login as Manager" << endl;
         cout << "2 to Login as Customer" << endl;
         cout << "3 to New Customer" << endl;
-        cout << "Any other key to Quit" << endl << endl;
+        cout << "Anything else to Quit" << endl << endl;
 
+        string soption;
         int option;
-        cin >> option;
+        cin >> soption;
+
+        try{
+            option = stoi(soption);
+        }
+        catch(exception e){
+            option = 0;
+        }
 
         //manager
         if(option == 1){
@@ -161,24 +174,51 @@ int main() {
                     cout << "4 to view list of all items" << endl;
                     cout << "5 to view items low on stock" << endl;
                     cout << "6 to change the details of an item" << endl;
-                    cout << "Any other key to Logout" << endl;
+                    cout << "Anything else to Logout" << endl;
 
                     int opt;
-                    cin >> opt;
+                    string sopt;
+                    cin >> sopt;
+
+                    try{
+                        opt = stoi(sopt);
+                    }
+                    catch(exception e){
+                        opt = 0;
+                    }
+
+                    cout << opt << endl;
 
                     //add items to inventory
                     if(opt == 1){
                         while(1){
                             cout<<"Press 1 to add a book, 2 to add a magazine, anything else to go back: ";
+                            string schoice;
                             int choice;
-                            cin >> choice;
+                            cin >> schoice;
+                            try{
+                                choice = stoi(schoice);
+                            }
+                            catch(exception e){
+                                choice = 0;
+            ;
+                            }
 
                             //book
                             if(choice == 1){
                                 while(1){
-                                    cout << "Press 1 for restock, 2 for new book anything else to go back: ";
+                                    cout << "Press 1 for restock, 2 for new book, anything else to go back: ";
                                     int restock;
-                                    cin >> restock;
+                                    string srestock;
+                                    cin >> srestock;
+                                    try{
+                                        restock = stoi(srestock);
+                                    }
+                                    catch(exception e){
+                                        restock = 0;
+                    ;
+                                    }
+
                                     if(restock == 1){
                                         cout << "Enter the id of the book you want to restock: ";
                                         int id;
@@ -202,7 +242,15 @@ int main() {
                                 while(1){
                                     cout << "Press 1 for restock, 2 for new magazine, anything else to go back: ";
                                     int restock;
-                                    cin >> restock;
+                                    string srestock;
+                                    cin >> srestock;
+                                    try{
+                                        restock = stoi(srestock);
+                                    }
+                                    catch(exception e){
+                                        restock = 0;
+                    ;
+                                    }
                                     if(restock == 1){
                                         cout << "Enter the id of the magazine you want to restock: ";
                                         int id;
@@ -231,7 +279,15 @@ int main() {
                         while(1){
                             cout << "Press 1 to delete a book, 2 to delete a magazine, anything else to go back: ";
                             int choice;
-                            cin >> choice;
+                            string schoice;
+                            cin >> schoice;
+                            try{
+                                choice = stoi(schoice);
+                            }
+                            catch(exception e){
+                                choice = 0;
+            ;
+                            }
                             //delete book
                             if(choice == 1){
                                 cout << "Enter the id of the book you want to delete: ";
@@ -267,7 +323,15 @@ int main() {
                         while(1){
                             cout << "Press 1 to change the cost of an item, 2 to change the price of an item, anything else to go back: ";
                             int choice;
-                            cin >> choice;
+                            string schoice;
+                            cin >> schoice;
+                            try{
+                                choice = stoi(schoice);
+                            }
+                            catch(exception e){
+                                choice = 0;
+            ;
+                            }
                             //change cost
                             if(choice == 1){
                                 cout << "Enter the id of the item you want to change the cost of: ";
@@ -318,7 +382,7 @@ int main() {
                 cin >> email;
             }
             int login = 0;
-            for(Customer customer : customers){
+            for(Customer& customer : customers){
                 if(customer.checkCredentials(name, email)){
                     login = 1;
                     cout << "Welcome " << name << "!" << endl;
@@ -331,7 +395,15 @@ int main() {
                         cout << "3 to display cart or checkout" << endl;
                         cout << "Any other key to Logout (your cart will be gone)" << endl;
                         int opt;
-                        cin >> opt;
+                        string sopt;
+                        cin >> sopt;
+                        try{
+                            opt = stoi(sopt);
+                        }
+                        catch(exception e){
+                            opt = 0;
+        ;
+                        }
 
                         //book
                         if(opt == 1){
@@ -343,7 +415,15 @@ int main() {
                                 cout << "3 if you know what you want to buy" << endl;
                                 cout << "Any other key to go back" << endl;
                                 int choice;
-                                cin >> choice;
+                                string schoice;
+                                cin >> schoice;
+                                try{
+                                    choice = stoi(schoice);
+                                }
+                                catch(exception e){
+                                    choice = 0;
+                ;
+                                }
 
                                 //author based search
                                 if(choice == 1){
@@ -424,7 +504,7 @@ int main() {
                                     break;
                                 }
                                 else{
-                                    cashier.addBookToCart(id);
+                                    cashier.addMagazineToCart(id);
                                 }
                             }
 
@@ -437,7 +517,15 @@ int main() {
                             cashier.displayCart();
                             cout<<"Do you wanna finalise purchase? Press 1 to checkout, any other key to continue exploring: ";
                             int checkout;
-                            cin >> checkout;
+                            string scheckout;
+                            cin >> scheckout;
+                            try{
+                                checkout = stoi(scheckout);
+                            }
+                            catch(exception e){
+                                checkout = 0;
+            ;
+                            }
                             if(checkout == 1){
                                 //confirming the final cart
                                 cashier.displayCart();
@@ -454,7 +542,7 @@ int main() {
                                 }
 
                                 cashier.displayCart();
-                                cout<<"Press 1 to continue, any other key to continue exploring: ";
+                                cout<<"Press 1 to continue, 0 to continue exploring: ";
                                 int check;
                                 cin >> check;
                                 if(check == 1){
@@ -493,8 +581,8 @@ int main() {
             }
             
             bool customerExists = false;
-            Customer curr_customer;
-            for(Customer customer : customers){
+            Customer& curr_customer = customers[0];
+            for(Customer& customer : customers){
                 if(customer.checkCredentials(name, email)){
                     cout << "Hello again " << name << "! Your account already exists. You have " << customer.getPoints() << " points in your account. Buy items to collect more points and get exciting discounts!" << endl;
                     customerExists = true;
@@ -516,7 +604,15 @@ int main() {
                 cout << "3 to display cart or checkout" << endl;
                 cout << "Any other key to Logout (your cart will be gone)" << endl;
                 int opt;
-                cin >> opt;
+                string sopt;
+                cin >> sopt;
+                try{
+                    opt = stoi(sopt);
+                }
+                catch(exception e){
+                    opt = 0;
+;
+                }
 
                 //book
                 if(opt == 1){
@@ -528,7 +624,15 @@ int main() {
                         cout << "3 if you know what you want to buy" << endl;
                         cout << "Any other key to go back" << endl;
                         int choice;
-                        cin >> choice;
+                        string schoice;
+                        cin >> schoice;
+                        try{
+                            choice = stoi(schoice);
+                        }
+                        catch(exception e){
+                            choice = 0;
+        ;
+                        }
 
                         //author based search
                         if(choice == 1){
@@ -609,7 +713,7 @@ int main() {
                             break;
                         }
                         else{
-                            cashier.addBookToCart(id);
+                            cashier.addMagazineToCart(id);
                         }
                     }
 
@@ -622,7 +726,15 @@ int main() {
                     cashier.displayCart();
                     cout<<"Do you wanna finalise purchase? Press 1 to checkout, any other key to continue exploring: ";
                     int checkout;
-                    cin >> checkout;
+                    string scheckout;
+                    cin >> scheckout;
+                    try{
+                        checkout = stoi(scheckout);
+                    }
+                    catch(exception e){
+                        checkout = 0;
+    ;
+                    }
                     if(checkout == 1){
                         //confirming the final cart
                         cashier.displayCart();
@@ -639,7 +751,7 @@ int main() {
                         }
 
                         cashier.displayCart();
-                        cout<<"Press 1 to continue, any other key to continue exploring: ";
+                        cout<<"Press 1 to continue, 0 to continue exploring: ";
                         int check;
                         cin >> check;
                         if(check == 1){

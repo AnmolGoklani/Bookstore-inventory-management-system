@@ -1,3 +1,6 @@
-Customer1,sample1@gmail.com,0
+percy,sea@weed.brain,17
 Customer2,sample2@gmail.com,0
 a,a@a.com,0
+Anmol,re@gmail.com,0
+zeus,king@of.gods,0
+percy,sea@weed.brain,0
