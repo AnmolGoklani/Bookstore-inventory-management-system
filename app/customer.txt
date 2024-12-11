@@ -1,6 +1,3 @@
-percy,sea@weed.brain,17
+Anmol,anmol@gmail.com,30
 Customer2,sample2@gmail.com,0
-a,a@a.com,0
-Anmol,re@gmail.com,0
-zeus,king@of.gods,0
-percy,sea@weed.brain,0
+Percy Jackson,percyriptide@olympianmail.com,0

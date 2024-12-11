@@ -581,18 +581,18 @@ int main() {
             }
             
             bool customerExists = false;
-            Customer& curr_customer = customers[0];
+            Customer* curr_customer;
             for(Customer& customer : customers){
                 if(customer.checkCredentials(name, email)){
                     cout << "Hello again " << name << "! Your account already exists. You have " << customer.getPoints() << " points in your account. Buy items to collect more points and get exciting discounts!" << endl;
                     customerExists = true;
-                    curr_customer = customer;
+                    curr_customer = &customer;
                     break;
                 }
             }
             if(!customerExists){
-                curr_customer = Customer(name, email, 0);
-                customers.push_back(curr_customer);
+                curr_customer =  new Customer(name, email, 0);
+                customers.push_back(*curr_customer);
                 cout << "Welcome aboard, " << name << "!" << endl;
                 cout << "Currently, you have 0 points in your account. Buy items to collect more points and get exciting discounts!" << endl << endl;
             }
@@ -755,7 +755,7 @@ int main() {
                         int check;
                         cin >> check;
                         if(check == 1){
-                            cashier.checkout(curr_customer);
+                            cashier.checkout(*curr_customer);
                         }
                         else{
                             cout<<"No worries! Hope you find what you like. Yout purchase was cancelled, your cart is still full."<<endl;
